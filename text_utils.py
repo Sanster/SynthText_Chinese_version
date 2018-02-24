@@ -27,8 +27,8 @@ def is_chinese(ch):
 
 
 def sample_weighted(p_dict):
-    ps = p_dict.keys()
-    return p_dict[np.random.choice(len(ps))]
+    ps = list(p_dict.keys())
+    return p_dict[np.random.choice(ps, p=ps)]
 
 
 def move_bb(bbs, t):
@@ -666,7 +666,7 @@ class TextSource(object):
             return lines
 
     def sample(self, nline_max, nchar_max, kind='WORD'):
-        print('sample_output', self.fdict[kind](nline_max, nchar_max))
+        print('sample_output:', self.fdict[kind](nline_max, nchar_max))
         return self.fdict[kind](nline_max, nchar_max)
 
     def sample_word(self, nline_max, nchar_max, niter=100):
@@ -716,7 +716,7 @@ class TextSource(object):
         nword = [max(1, int(np.ceil(n))) for n in nword]
 
         lines = self.get_lines(nline, nword, nchar_max, f=0.35)
-        print('sample_para_output', lines)
+        print('sample_para_output:', lines)
         if lines is not None:
             # center align the paragraph-text:
             if np.random.rand() < self.center_para:
